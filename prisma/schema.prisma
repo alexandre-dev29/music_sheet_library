@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator graphql_generated {
+  provider    = "node node_modules/prisma-nestjs-graphql"
+  output      = "../libs/types/src/@generated"
+  purgeOutput = true
+  emitSingle  = true
+}
+
+model User {
+  id          String      @id @default(uuid())
+  phoneNumber String      @unique
+  password    String
+  name        String?
+  biography   String      @db.VarChar()
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  AuthTokens  AuthToken[]
+}
+
+model AuthToken {
+  token      String   @id @unique
+  userId     String
+  User       User     @relation(fields: [userId], references: [id])
+  createdAt  DateTime @default(now())
+  validUntil DateTime
+}
+
+model SheetMusic {
+  id          Int         @id @default(autoincrement())
+  title       String
+  slug        String
+  composer    String
+  arranger    String?
+  instrument  String
+  genre       String
+  difficulty  String
+  description String?
+  year        String?
+  fileId      String
+  pdfUrl      String // store link to the pdf
+  file        FileStorage @relation(fields: [fileId], references: [id]) // Creates the foreign key relationship
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model FileStorage {
+  id              String       @id @default(uuid())
+  bucket          String // bucket name
+  fileKey         String // unique identifier for the file in s3 bucket
+  fileCompleteUrl String // unique identifier for the file in s3 bucket
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  SheetsMusic     SheetMusic[]
+}
