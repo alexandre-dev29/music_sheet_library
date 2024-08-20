@@ -9,7 +9,7 @@ datasource db {
 
 generator graphql_generated {
   provider    = "node node_modules/prisma-nestjs-graphql"
-  output      = "../libs/types/src/@generated"
+  output      = "../src/types/@generated"
   purgeOutput = true
   emitSingle  = true
 }
