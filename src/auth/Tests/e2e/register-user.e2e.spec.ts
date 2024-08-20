@@ -20,22 +20,22 @@ describe('registerUser', () => {
       const response = await request<{ registerUser: RegisterUserDto }>(
         integrationTestManager.httpServer,
       )
-      .mutate(gql`
+        .mutate(gql`
           mutation registerUser($registerUserData: RegisterCommand!) {
-              registerUser(registerUserData: $registerUserData) {
-                  name
-                  phoneNumber
-              }
+            registerUser(registerUserData: $registerUserData) {
+              name
+              phoneNumber
+            }
           }
-      `)
-      .variables({
-        registerUserData: {
-          name: userStub().name,
-          phoneNumber: userStub().phoneNumber,
-          password: userStub().password,
-        } as RegisterCommand,
-      })
-      .expectNoErrors();
+        `)
+        .variables({
+          registerUserData: {
+            name: userStub().name,
+            phoneNumber: userStub().phoneNumber,
+            password: userStub().password,
+          } as RegisterCommand,
+        })
+        .expectNoErrors();
       createdUser = response.data.registerUser;
     });
     afterAll(async () => {
