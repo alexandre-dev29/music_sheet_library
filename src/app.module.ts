@@ -7,7 +7,7 @@ import { MercuriusDriver, MercuriusDriverConfig } from '@nestjs/mercurius';
 import { TypesModule } from './types/types.module';
 import { TestController } from './test.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { PrismaService } from 'nestjs-prisma';
+import { PrismaModule, PrismaService } from 'nestjs-prisma';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { MusicsheetModule } from './musicsheet/musicsheet.module';
@@ -45,6 +45,24 @@ import { JwtModule } from '@nestjs/jwt';
           signOptions: { algorithm: 'HS256', expiresIn: '1d' },
         };
       },
+    }),
+    PrismaModule.forRootAsync({
+      useFactory: async (configService: ConfigService) => {
+        return {
+          prismaOptions: {
+            log: ['query'],
+            datasources: {
+              db: {
+                url:
+                  configService.get('NODE_ENV') === 'test'
+                    ? configService.get<string>('DATABASE_URL_TEST')
+                    : configService.get<string>('DATABASE_URL'),
+              },
+            },
+          },
+        };
+      },
+      inject: [ConfigService],
     }),
     TypesModule,
     ConfigModule.forRoot({ isGlobal: true }),

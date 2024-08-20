@@ -4,6 +4,8 @@
     "json",
     "ts"
   ],
+  "globalSetup": "./src/common/e2e/setup.ts",
+  "globalTeardown": "./src/common/e2e/teardown.ts",
   "rootDir": ".",
   "testEnvironment": "node",
   "testRegex": ".e2e-spec.ts$",

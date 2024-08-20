@@ -1,0 +1,229 @@
+# This file was generated. Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+"Indicates exactly one field must be supplied and this field must not be `null`."
+directive @oneOf on INPUT_OBJECT
+
+type AuthToken {
+    User: User!
+    createdAt: DateTime!
+    token: ID!
+    userId: String!
+    validUntil: DateTime!
+}
+
+type AuthTokenCountAggregate {
+    _all: Int!
+    createdAt: Int!
+    token: Int!
+    userId: Int!
+    validUntil: Int!
+}
+
+type AuthTokenMaxAggregate {
+    createdAt: DateTime
+    token: String
+    userId: String
+    validUntil: DateTime
+}
+
+type AuthTokenMinAggregate {
+    createdAt: DateTime
+    token: String
+    userId: String
+    validUntil: DateTime
+}
+
+type FileStorage {
+    SheetsMusic: [SheetMusic!]
+    _count: FileStorageCount!
+    bucket: String!
+    createdAt: DateTime!
+    fileCompleteUrl: String!
+    fileKey: String!
+    id: ID!
+    updatedAt: DateTime!
+}
+
+type FileStorageCount {
+    SheetsMusic: Int!
+}
+
+type FileStorageCountAggregate {
+    _all: Int!
+    bucket: Int!
+    createdAt: Int!
+    fileCompleteUrl: Int!
+    fileKey: Int!
+    id: Int!
+    updatedAt: Int!
+}
+
+type FileStorageMaxAggregate {
+    bucket: String
+    createdAt: DateTime
+    fileCompleteUrl: String
+    fileKey: String
+    id: String
+    updatedAt: DateTime
+}
+
+type FileStorageMinAggregate {
+    bucket: String
+    createdAt: DateTime
+    fileCompleteUrl: String
+    fileKey: String
+    id: String
+    updatedAt: DateTime
+}
+
+type Mutation {
+    registerUser(registerUserData: RegisterCommand!): RegisterUserDto!
+}
+
+type Query {
+    getData: [User!]!
+}
+
+type RegisterUserDto {
+    name: String!
+    phoneNumber: String!
+}
+
+type SheetMusic {
+    arranger: String
+    composer: String!
+    createdAt: DateTime!
+    description: String
+    difficulty: String!
+    file: FileStorage!
+    fileId: String!
+    genre: String!
+    id: ID!
+    instrument: String!
+    pdfUrl: String!
+    slug: String!
+    title: String!
+    updatedAt: DateTime!
+    year: String
+}
+
+type SheetMusicAvgAggregate {
+    id: Float
+}
+
+type SheetMusicCountAggregate {
+    _all: Int!
+    arranger: Int!
+    composer: Int!
+    createdAt: Int!
+    description: Int!
+    difficulty: Int!
+    fileId: Int!
+    genre: Int!
+    id: Int!
+    instrument: Int!
+    pdfUrl: Int!
+    slug: Int!
+    title: Int!
+    updatedAt: Int!
+    year: Int!
+}
+
+type SheetMusicMaxAggregate {
+    arranger: String
+    composer: String
+    createdAt: DateTime
+    description: String
+    difficulty: String
+    fileId: String
+    genre: String
+    id: Int
+    instrument: String
+    pdfUrl: String
+    slug: String
+    title: String
+    updatedAt: DateTime
+    year: String
+}
+
+type SheetMusicMinAggregate {
+    arranger: String
+    composer: String
+    createdAt: DateTime
+    description: String
+    difficulty: String
+    fileId: String
+    genre: String
+    id: Int
+    instrument: String
+    pdfUrl: String
+    slug: String
+    title: String
+    updatedAt: DateTime
+    year: String
+}
+
+type SheetMusicSumAggregate {
+    id: Int
+}
+
+type User {
+    AuthTokens: [AuthToken!]
+    _count: UserCount!
+    biography: String!
+    createdAt: DateTime!
+    id: ID!
+    name: String
+    password: String!
+    phoneNumber: String!
+    updatedAt: DateTime!
+}
+
+type UserCount {
+    AuthTokens: Int!
+}
+
+type UserCountAggregate {
+    _all: Int!
+    biography: Int!
+    createdAt: Int!
+    id: Int!
+    name: Int!
+    password: Int!
+    phoneNumber: Int!
+    updatedAt: Int!
+}
+
+type UserMaxAggregate {
+    biography: String
+    createdAt: DateTime
+    id: String
+    name: String
+    password: String
+    phoneNumber: String
+    updatedAt: DateTime
+}
+
+type UserMinAggregate {
+    biography: String
+    createdAt: DateTime
+    id: String
+    name: String
+    password: String
+    phoneNumber: String
+    updatedAt: DateTime
+}
+
+"A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format."
+scalar DateTime
+
+input RegisterCommand {
+    name: String
+    password: String!
+    phoneNumber: String!
+}
