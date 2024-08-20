@@ -1,6 +1,4 @@
-import { ArgsType, Field, InputType } from '@nestjs/graphql';
-import { AppService } from '../../../app.service';
-import { name } from 'eslint-plugin-prettier';
+import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class RegisterCommand {

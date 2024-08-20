@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import * as bcrypt from 'bcrypt';
 import { RegisterCommand } from '../../Commands/Register/RegisterCommand';
@@ -24,8 +20,7 @@ export class AuthService {
       return false;
     }
 
-    const isPasswordMatching = await bcrypt.compare(password, user.password);
-    return isPasswordMatching;
+    return await bcrypt.compare(password, user.password);
   }
 
   async registerNewUser(

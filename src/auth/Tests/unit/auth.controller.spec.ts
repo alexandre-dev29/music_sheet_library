@@ -2,9 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
 import { AuthController } from '../../Controllers/auth.controller';
 import { RegisterCommand } from '../../Commands/Register/RegisterCommand';
-import { RegisterUserDto } from '../../Common/dto/registerUserDto';
 import { userStub } from '../stubs/userStub';
-import { DeepMockProxy, mockDeep } from 'jest-mock-extended';
+import { DeepMockProxy } from 'jest-mock-extended';
 import { JwtService } from '@nestjs/jwt';
 
 describe('AuthController', () => {
