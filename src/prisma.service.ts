@@ -31,8 +31,8 @@ export class PrismaService
   async cleanDatabase() {
     if (process.env.NODE_ENV === 'production') return;
     const deleteUser = this.user.deleteMany();
-    const deleteAuth = this.authToken.deleteMany();
     const deleteSheet = this.sheetMusic.deleteMany();
-    await this.$transaction([deleteUser, deleteAuth, deleteSheet]);
+    const composer = this.composer.deleteMany();
+    await this.$transaction([deleteUser, deleteSheet, composer]);
   }
 }

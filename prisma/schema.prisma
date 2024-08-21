@@ -15,40 +15,66 @@ generator graphql_generated {
 }
 
 model User {
-  id          String      @id @default(uuid())
-  phoneNumber String      @unique
-  password    String
-  name        String?
-  biography   String      @db.VarChar()
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  AuthTokens  AuthToken[]
+  id           String       @id @default(uuid())
+  phoneNumber  String       @unique
+  password     String
+  name         String?
+  role         Roles        @default(USER)
+  biography    String       @db.VarChar()
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  FileUploaded SheetMusic[]
+  favorites    Favorites[]
 }
 
-model AuthToken {
-  token      String   @id @unique
-  userId     String
-  User       User     @relation(fields: [userId], references: [id])
-  createdAt  DateTime @default(now())
-  validUntil DateTime
+model Composer {
+  id            String       @id @default(uuid())
+  name          String       @unique
+  birthDate     DateTime?    @unique
+  biography     String?      @db.VarChar()
+  authorImageId String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  AuthorImage   FileStorage? @relation(fields: [authorImageId], references: [id])
+  MusicSheets   SheetMusic[]
+
+  @@index([name])
 }
 
 model SheetMusic {
-  id          Int         @id @default(autoincrement())
-  title       String
-  slug        String
-  composer    String
-  arranger    String?
-  instrument  String
-  genre       String
-  difficulty  String
-  description String?
-  year        String?
-  fileId      String
-  pdfUrl      String // store link to the pdf
-  file        FileStorage @relation(fields: [fileId], references: [id]) // Creates the foreign key relationship
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  id                Int         @id @default(autoincrement())
+  title             String
+  slug              String?
+  composerId        String
+  arranger          String?
+  instrument        String
+  genre             String?
+  difficulty        String?
+  description       String?
+  year              String?
+  fileId            String
+  thumbnailId       String
+  favorites         Favorites[]
+  numberOfDownloads Int         @default(0) @db.Integer
+  thumbnail         FileStorage @relation("thumbnail_relation", fields: [thumbnailId], references: [id])
+  sheetFile         FileStorage @relation("file_relation", fields: [fileId], references: [id]) // Creates the foreign key relationship
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  Composer          Composer    @relation(fields: [composerId], references: [id], onDelete: Cascade)
+  UploadedBy        User        @relation(fields: [uploadedById], references: [id])
+  uploadedById      String
+
+  @@index([title])
+}
+
+model Favorites {
+  User         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  SheetMusic   SheetMusic @relation(fields: [sheetMusicId], references: [id], onDelete: Cascade)
+  sheetMusicId Int
+  addedAt      DateTime   @default(now())
+
+  @@id([userId, sheetMusicId])
 }
 
 model FileStorage {
@@ -58,5 +84,14 @@ model FileStorage {
   fileCompleteUrl String // unique identifier for the file in s3 bucket
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
-  SheetsMusic     SheetMusic[]
+  Thumbnails      SheetMusic[] @relation("thumbnail_relation")
+  SheetMusics     SheetMusic[] @relation("file_relation")
+  Composers       Composer[]
+}
+
+enum Roles {
+  USER
+  ADMIN
+  COMPOSER
+  SUPERADMIN
 }
