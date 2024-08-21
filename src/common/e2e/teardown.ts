@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from '../../app.module';
-import { PrismaModule, PrismaService } from 'nestjs-prisma';
 import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
+import { PrismaService } from '../../prisma.service';
 
 export default async (): Promise<void> => {
   const moduleFixture: TestingModule = await Test.createTestingModule({
     imports: [AppModule],
-    providers: [PrismaModule],
+    providers: [],
   }).compile();
   const app = moduleFixture.createNestApplication<NestFastifyApplication>(
     new FastifyAdapter(),
