@@ -1,11 +1,11 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { RegisterCommand } from '../../Commands/Register/RegisterCommand';
-import { RegisterUserDto } from '../dto/registerUserDto';
+import { RegisterUserDto } from '@/music_sheet/auth/Dto/registerUserDto';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '@/music_sheet/prisma.service';
 import { ConfigService } from '@nestjs/config';
-import { LoginUserDto } from '@/music_sheet/auth/Common/dto/LoginUserDto';
+import { RegisterCommand } from '@/music_sheet/auth/Commands/Register/RegisterCommand';
+import { LoginUserDto } from '@/music_sheet/auth/Dto/LoginUserDto';
 
 @Injectable()
 export class AuthService {

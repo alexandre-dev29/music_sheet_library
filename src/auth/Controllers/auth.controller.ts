@@ -1,10 +1,10 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
-import { RegisterUserDto } from '../Common/dto/registerUserDto';
 import { RegisterCommand } from '../Commands/Register/RegisterCommand';
 import { CommandBus } from '@nestjs/cqrs';
-import { LoginUserDto } from '@/music_sheet/auth/Common/dto/LoginUserDto';
 import { LoginCommand } from '@/music_sheet/auth/Commands/Login/LoginCommand';
 import { User } from '@/music_sheet/types/@generated';
+import { RegisterUserDto } from '@/music_sheet/auth/Dto/registerUserDto';
+import { LoginUserDto } from '@/music_sheet/auth/Dto/LoginUserDto';
 
 @Resolver(() => User)
 export class AuthController {

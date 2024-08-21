@@ -2,9 +2,9 @@ import request from 'supertest-graphql';
 import gql from 'graphql-tag';
 import { userStub } from '../stubs/userStub';
 import { E2ETestManager } from '@/music_sheet/common/e2e/e2eTestManager';
-import { LoginUserDto } from '@/music_sheet/auth/Common/dto/LoginUserDto';
 import { LoginCommand } from '@/music_sheet/auth/Commands/Login/LoginCommand';
 import { GraphQLError } from 'graphql/error';
+import { LoginUserDto } from '@/music_sheet/auth/Dto/LoginUserDto';
 
 describe('login user', () => {
   const e2eTestManager = new E2ETestManager();

@@ -1,7 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { AuthService } from '../../Common/services/auth.service';
 import { LoginCommand } from '@/music_sheet/auth/Commands/Login/LoginCommand';
-import { LoginUserDto } from '@/music_sheet/auth/Common/dto/LoginUserDto';
+import { LoginUserDto } from '@/music_sheet/auth/Dto/LoginUserDto';
+import { AuthService } from '@/music_sheet/auth/Services/auth.service';
 
 @CommandHandler(LoginCommand)
 export class LoginCommandHandler implements ICommandHandler<LoginCommand> {

@@ -1,9 +1,9 @@
 import request from 'supertest-graphql';
-import { RegisterUserDto } from '../../Common/dto/registerUserDto';
 import gql from 'graphql-tag';
 import { RegisterCommand } from '../../Commands/Register/RegisterCommand';
 import { userStub } from '../stubs/userStub';
 import { E2ETestManager } from '@/music_sheet/common/e2e/e2eTestManager';
+import { RegisterUserDto } from '@/music_sheet/auth/Dto/registerUserDto';
 
 describe('registerUser', () => {
   const e2eTestManager = new E2ETestManager();

@@ -1,7 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { RegisterCommand } from './RegisterCommand';
-import { AuthService } from '../../Common/services/auth.service';
-import { RegisterUserDto } from '../../Common/dto/registerUserDto';
+import { AuthService } from '@/music_sheet/auth/Services/auth.service';
+import { RegisterUserDto } from '@/music_sheet/auth/Dto/registerUserDto';
 
 @CommandHandler(RegisterCommand)
 export class RegisterCommandHandler

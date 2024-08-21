@@ -1,7 +1,7 @@
 import { IntegrationTestManager } from '@/music_sheet/common/e2e/integrationTestManager';
 
 import { userStub } from '@/music_sheet/auth/Tests/stubs/userStub';
-import { RegisterUserDto } from '@/music_sheet/auth/Common/dto/registerUserDto';
+import { RegisterUserDto } from '@/music_sheet/auth/Dto/registerUserDto';
 
 describe('Auth Service integration', () => {
   const integrationTestManager = new IntegrationTestManager();
