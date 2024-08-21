@@ -7,10 +7,8 @@ export const options = {
   ],
 };
 const query = `
-  {
-  getData{
-    name
-  }
+{
+  workingStatus
 }
 `;
 
@@ -19,9 +17,7 @@ const headers = {
 };
 
 export default function () {
-  http.post(
-    'http://localhost:3000/graphql',
-    JSON.stringify({ query }),
-    { headers }
-  );
+  http.post('http://localhost:3000/graphql', JSON.stringify({ query }), {
+    headers,
+  });
 }

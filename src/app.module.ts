@@ -1,18 +1,16 @@
 import { Module } from '@nestjs/common';
-
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MercuriusDriver, MercuriusDriverConfig } from '@nestjs/mercurius';
-import { TestController } from './test.controller';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-
-import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule } from '@nestjs/config';
 import { PrismaService } from './prisma.service';
 import { TypesModule } from '@/music_sheet/types/types.module';
 import { UsersModule } from '@/music_sheet/users/users.module';
 import { AuthModule } from '@/music_sheet/auth/auth.module';
 import { MusicsheetModule } from '@/music_sheet/musicsheet/musicsheet.module';
+import { CaslModule } from 'nest-casl';
+import { Role } from '@/music_sheet/common/security/role';
+import { UserSecurity } from '@/music_sheet/common/security/user.security';
+import { AppResolver } from '@/music_sheet/app.resolver';
 
 @Module({
   imports: [
@@ -36,14 +34,17 @@ import { MusicsheetModule } from '@/music_sheet/musicsheet/musicsheet.module';
         // } as MercuriusPlugin<MercuriusCacheOptions>,
       ],
     }),
-
+    CaslModule.forRoot<Role, UserSecurity>({
+      superuserRole: Role.SuperAdmin,
+      getUserFromRequest: (request) => request.user,
+    }),
     TypesModule,
     ConfigModule.forRoot({ isGlobal: true }),
     UsersModule,
     AuthModule,
     MusicsheetModule,
   ],
-  controllers: [TestController],
-  providers: [AppService, PrismaService, AppController],
+  controllers: [],
+  providers: [PrismaService, AppResolver],
 })
 export class AppModule {}
