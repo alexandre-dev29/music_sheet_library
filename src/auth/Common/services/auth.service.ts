@@ -1,15 +1,18 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { PrismaService } from 'nestjs-prisma';
 import * as bcrypt from 'bcrypt';
 import { RegisterCommand } from '../../Commands/Register/RegisterCommand';
 import { RegisterUserDto } from '../dto/registerUserDto';
 import { JwtService } from '@nestjs/jwt';
+import { PrismaService } from '@/music_sheet/prisma.service';
+import { ConfigService } from '@nestjs/config';
+import { LoginUserDto } from '@/music_sheet/auth/Common/dto/LoginUserDto';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
   async validateUser(phoneNumber: string, password: string): Promise<boolean> {
     const user = await this.prismaService.user.findUnique({
@@ -50,7 +53,10 @@ export class AuthService {
     return { ...newUser } as RegisterUserDto;
   }
 
-  async loginUser(phoneNumber: string, password: string) {
+  async loginUser(
+    phoneNumber: string,
+    password: string,
+  ): Promise<LoginUserDto> {
     // Validate user's credentials
     const isValid = await this.validateUser(phoneNumber, password);
     if (!isValid) {
@@ -63,11 +69,14 @@ export class AuthService {
     });
 
     // Generate the authentication token
-    const token = this.jwtService.sign({
-      phoneNumber: user.phoneNumber,
-      name: user.name,
-    });
+    const token = this.jwtService.sign(
+      {
+        phoneNumber: user.phoneNumber,
+        name: user.name,
+      },
+      { secret: this.configService.get<string>('JWT_SECRET_SECRET_KEY') },
+    );
 
-    return { accessToken: token };
+    return { accessToken: token, name: user.name, phoneNumber };
   }
 }

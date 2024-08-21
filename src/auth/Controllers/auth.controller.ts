@@ -1,12 +1,15 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
-import { AuthToken } from '../../types/@generated';
 import { RegisterUserDto } from '../Common/dto/registerUserDto';
 import { RegisterCommand } from '../Commands/Register/RegisterCommand';
 import { CommandBus } from '@nestjs/cqrs';
+import { AuthToken } from '@/music_sheet/types/@generated';
+import { LoginUserDto } from '@/music_sheet/auth/Common/dto/LoginUserDto';
+import { LoginCommand } from '@/music_sheet/auth/Commands/Login/LoginCommand';
 
 @Resolver(() => AuthToken)
 export class AuthController {
   constructor(private readonly commandBus: CommandBus) {}
+
   @Mutation(() => RegisterUserDto)
   async registerUser(
     @Args({ name: 'registerUserData', type: () => RegisterCommand })
@@ -15,5 +18,13 @@ export class AuthController {
     return this.commandBus.execute(
       new RegisterCommand(phoneNumber, password, name),
     );
+  }
+
+  @Mutation(() => LoginUserDto)
+  async loginUser(
+    @Args({ name: 'loginData', type: () => LoginCommand })
+    { phoneNumber, password }: LoginCommand,
+  ): Promise<LoginUserDto> {
+    return this.commandBus.execute(new LoginCommand(phoneNumber, password));
   }
 }
