@@ -5,6 +5,7 @@ import { RegisterCommand } from '../../Commands/Register/RegisterCommand';
 import { userStub } from '../stubs/userStub';
 import { DeepMockProxy } from 'jest-mock-extended';
 import { JwtService } from '@nestjs/jwt';
+import { LoginCommand } from '@/music_sheet/auth/Commands/Login/LoginCommand';
 
 describe('AuthController', () => {
   let authController: AuthController;
@@ -43,6 +44,18 @@ describe('AuthController', () => {
     commandBus.execute.mockResolvedValue(cmd);
 
     expect(await authController.registerUser(cmd)).toBe(cmd);
+    expect(commandBus.execute).toHaveBeenCalledWith(cmd);
+  });
+  it('should login user and return LoginUserDto object', async () => {
+    const cmd = new LoginCommand(userStub().phoneNumber, userStub().password);
+    const response = {
+      name: userStub().name,
+      phoneNumber: userStub().phoneNumber,
+      accessToken: 'alexandre',
+    };
+    commandBus.execute.mockResolvedValue(response);
+
+    expect(await authController.loginUser(cmd)).toBe(response);
     expect(commandBus.execute).toHaveBeenCalledWith(cmd);
   });
 });

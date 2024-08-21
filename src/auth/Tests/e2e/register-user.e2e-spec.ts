@@ -1,24 +1,24 @@
-import { IntegrationTestManager } from '../../../common/e2e/integrationTestManager';
 import request from 'supertest-graphql';
 import { RegisterUserDto } from '../../Common/dto/registerUserDto';
 import gql from 'graphql-tag';
 import { RegisterCommand } from '../../Commands/Register/RegisterCommand';
 import { userStub } from '../stubs/userStub';
+import { E2ETestManager } from '@/music_sheet/common/e2e/e2eTestManager';
 
 describe('registerUser', () => {
-  const integrationTestManager = new IntegrationTestManager();
+  const e2eTestManager = new E2ETestManager();
   beforeAll(async () => {
-    await integrationTestManager.beforeAll();
+    await e2eTestManager.beforeAll();
   });
   afterAll(async () => {
-    await integrationTestManager.afterAll();
+    await e2eTestManager.afterAll();
   });
 
   describe('given that the user does not exist', () => {
     let createdUser: RegisterUserDto;
     beforeAll(async () => {
       const response = await request<{ registerUser: RegisterUserDto }>(
-        integrationTestManager.httpServer,
+        e2eTestManager.httpServer,
       )
         .mutate(gql`
           mutation registerUser($registerUserData: RegisterCommand!) {
@@ -39,17 +39,22 @@ describe('registerUser', () => {
       createdUser = response.data.registerUser;
     });
     afterAll(async () => {
-      integrationTestManager.prismaService.user.deleteMany({});
+      await e2eTestManager.prismaService.user.deleteMany({});
     });
     test('then the response should be the newly created user', async () => {
       expect(createdUser.name).toBe(userStub().name);
       expect(createdUser.phoneNumber).toBe(userStub().phoneNumber);
     });
     test('then the new user should be created', async () => {
-      const user = integrationTestManager.prismaService.user.findUnique({
+      const user = e2eTestManager.prismaService.user.findUnique({
         where: { phoneNumber: createdUser.phoneNumber },
       });
       expect(user).toBeDefined();
+    });
+    test('should throw an exception has the user already exist', async () => {
+      await expect(
+        e2eTestManager.authService.registerNewUser(userStub()),
+      ).rejects.toThrow('User already exists');
     });
   });
 });
