@@ -5,7 +5,7 @@ import {
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from '../../app.module';
 import { PrismaService } from '../../prisma.service';
-import { AuthService } from '@/music_sheet/auth/Common/services/auth.service';
+import { AuthService } from '@/music_sheet/auth/Common/Services/auth.service';
 
 export class E2ETestManager {
   private app: NestFastifyApplication;
