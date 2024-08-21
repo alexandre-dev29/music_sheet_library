@@ -48,7 +48,9 @@ export class DocumentsService {
    * @throws {InternalServerErrorException} - If an error occurs during the upload process.
    * @param file
    */
-  async uploadSingleFile(file: FileUpload) {
+  async uploadSingleFile(
+    file: FileUpload,
+  ): Promise<{ url: string; bucket: string; fileKey: string }> {
     try {
       const key = `${v4()}`;
       const command = new Upload({
@@ -71,6 +73,8 @@ export class DocumentsService {
 
       return {
         url: this.getFileUrl(key).url,
+        bucket: this.bucketName,
+        fileKey: key,
       };
     } catch (error) {
       throw new InternalServerErrorException(error);
