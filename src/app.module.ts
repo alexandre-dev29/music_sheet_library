@@ -12,6 +12,8 @@ import { Role } from '@/music_sheet/common/security/role';
 import { UserSecurity } from '@/music_sheet/common/security/user.security';
 import { AppResolver } from '@/music_sheet/app.resolver';
 import { ComposerModule } from './composer/composer.module';
+import { DocumentsModule } from './documents/documents.module';
+import { DocumentsService } from '@/music_sheet/documents/documents.service';
 
 @Module({
   imports: [
@@ -45,8 +47,9 @@ import { ComposerModule } from './composer/composer.module';
     AuthModule,
     MusicsheetModule,
     ComposerModule,
+    DocumentsModule,
   ],
   controllers: [],
-  providers: [PrismaService, AppResolver],
+  providers: [PrismaService, AppResolver, DocumentsService],
 })
 export class AppModule {}
