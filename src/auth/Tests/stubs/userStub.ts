@@ -9,5 +9,6 @@ export const userStub = (): User => {
     name: 'Alexandre',
     biography: 'sample biography',
     id: '1',
+    role: 'ADMIN',
   };
 };

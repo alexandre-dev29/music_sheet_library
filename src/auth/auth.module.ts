@@ -3,24 +3,12 @@ import { authCommandHandlers, authQueriesHandler } from './exporter';
 import { AuthService } from './Common/services/auth.service';
 import { AuthController } from './Controllers/auth.controller';
 import { CqrsModule } from '@nestjs/cqrs';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '@/music_sheet/prisma.service';
 import { ConfigService } from '@nestjs/config';
 
 @Module({
-  imports: [
-    CqrsModule,
-    JwtModule.registerAsync({
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => {
-        return {
-          global: true,
-          secret: configService.get<string>('JWT_SECRET_SECRET_KEY'),
-          signOptions: { algorithm: 'HS256', expiresIn: '1d' },
-        };
-      },
-    }),
-  ],
+  imports: [CqrsModule],
   providers: [
     ...authCommandHandlers,
     ...authQueriesHandler,
@@ -28,6 +16,7 @@ import { ConfigService } from '@nestjs/config';
     PrismaService,
     JwtService,
     AuthController,
+    ConfigService,
   ],
 })
 export class AuthModule {}

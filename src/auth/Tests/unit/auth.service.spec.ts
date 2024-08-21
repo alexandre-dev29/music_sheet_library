@@ -8,6 +8,7 @@ import { AuthModule } from '../../auth.module';
 import { AuthService } from '../../Common/services/auth.service';
 import { userStub } from '../stubs/userStub';
 import { PrismaService } from '@/music_sheet/prisma.service';
+import { ConfigService } from '@nestjs/config';
 
 jest.mock('bcrypt', () => ({
   compare: jest.fn(),
@@ -24,7 +25,7 @@ describe('AuthService', () => {
 
     const moduleRef = await Test.createTestingModule({
       imports: [AuthModule],
-      providers: [JwtService, AuthService, PrismaService],
+      providers: [JwtService, AuthService, PrismaService, ConfigService],
     })
       .overrideProvider(PrismaService)
       .useValue(mockDeep(PrismaClient))
@@ -99,7 +100,11 @@ describe('AuthService', () => {
         userStub().phoneNumber,
         userStub().password,
       );
-      expect(result).toEqual({ accessToken: token });
+      expect(result).toEqual({
+        accessToken: token,
+        name: userStub().name,
+        phoneNumber: userStub().phoneNumber,
+      });
     });
 
     it('should throw an error if user is not found or password does not match', async () => {
