@@ -6,19 +6,17 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
-import { AppModule } from "./app.module";
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter()
+    new FastifyAdapter(),
   );
-  await app.register(MercuriusGQLUpload, { maxFiles: 10 });
+  await app.register(MercuriusGQLUpload, { maxFiles: 3 });
   const port = process.env.PORT || 3000;
-  await app.listen(port, "0.0.0.0");
-  Logger.log(
-    `🚀 Application is running on: http://localhost:${port}`
-  );
+  await app.listen(port, '0.0.0.0');
+  Logger.log(`🚀 Application is running on: http://localhost:${port}`);
 }
 
 bootstrap();
