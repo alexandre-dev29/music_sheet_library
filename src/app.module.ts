@@ -11,6 +11,7 @@ import { CaslModule } from 'nest-casl';
 import { Role } from '@/music_sheet/common/security/role';
 import { UserSecurity } from '@/music_sheet/common/security/user.security';
 import { AppResolver } from '@/music_sheet/app.resolver';
+import { ComposerModule } from './composer/composer.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { AppResolver } from '@/music_sheet/app.resolver';
     UsersModule,
     AuthModule,
     MusicsheetModule,
+    ComposerModule,
   ],
   controllers: [],
   providers: [PrismaService, AppResolver],
