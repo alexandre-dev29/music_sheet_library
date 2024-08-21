@@ -81,7 +81,14 @@ type FileStorageMinAggregate {
     updatedAt: DateTime
 }
 
+type LoginUserDto {
+    accessToken: String!
+    name: String!
+    phoneNumber: String!
+}
+
 type Mutation {
+    loginUser(loginData: LoginCommand!): LoginUserDto!
     registerUser(registerUserData: RegisterCommand!): RegisterUserDto!
 }
 
@@ -221,6 +228,11 @@ type UserMinAggregate {
 
 "A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format."
 scalar DateTime
+
+input LoginCommand {
+    password: String!
+    phoneNumber: String!
+}
 
 input RegisterCommand {
     name: String
