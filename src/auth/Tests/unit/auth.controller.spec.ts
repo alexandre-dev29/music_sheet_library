@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus } from '@nestjs/cqrs';
-import { AuthController } from '../../Controllers/auth.controller';
+import { AuthResolver } from '../../Controllers/auth.resolver';
 import { RegisterCommand } from '../../Commands/Register/RegisterCommand';
 import { userStub } from '../stubs/userStub';
 import { DeepMockProxy } from 'jest-mock-extended';
@@ -8,7 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { LoginCommand } from '@/music_sheet/auth/Commands/Login/LoginCommand';
 
 describe('AuthController', () => {
-  let authController: AuthController;
+  let authController: AuthResolver;
   let commandBus: any;
   let mockJwtService: DeepMockProxy<JwtService>;
 
@@ -16,7 +16,7 @@ describe('AuthController', () => {
     commandBus = { execute: jest.fn() };
 
     const moduleRef: TestingModule = await Test.createTestingModule({
-      controllers: [AuthController],
+      controllers: [AuthResolver],
       providers: [
         {
           provide: CommandBus,
@@ -28,7 +28,7 @@ describe('AuthController', () => {
       .useValue(mockJwtService)
       .compile();
 
-    authController = moduleRef.get<AuthController>(AuthController);
+    authController = moduleRef.get<AuthResolver>(AuthResolver);
   });
 
   afterEach(() => {

@@ -7,7 +7,7 @@ import { RegisterUserDto } from '@/music_sheet/auth/Dto/registerUserDto';
 import { LoginUserDto } from '@/music_sheet/auth/Dto/LoginUserDto';
 
 @Resolver(() => User)
-export class AuthController {
+export class AuthResolver {
   constructor(private readonly commandBus: CommandBus) {}
 
   @Mutation(() => RegisterUserDto)

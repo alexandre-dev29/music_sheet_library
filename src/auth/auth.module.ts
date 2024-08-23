@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { authCommandHandlers, authQueriesHandler } from './exporter';
-import { AuthController } from './Controllers/auth.controller';
+import { AuthResolver } from './Controllers/auth.resolver';
 import { CqrsModule } from '@nestjs/cqrs';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '@/music_sheet/prisma.service';
@@ -15,7 +15,7 @@ import { AuthService } from '@/music_sheet/auth/Services/auth.service';
     AuthService,
     PrismaService,
     JwtService,
-    AuthController,
+    AuthResolver,
     ConfigService,
   ],
 })
