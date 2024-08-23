@@ -1,3 +1,11 @@
-import { CreateComposerCommand } from '@/music_sheet/composer/Commands/CreateComposer/CreateComposerCommand';
+import { Field, ObjectType } from '@nestjs/graphql';
 
-export type CreateComposerDto = Omit<CreateComposerCommand, 'composerImage'>;
+@ObjectType()
+export class CreateComposerDto {
+  @Field(() => String, { nullable: false })
+  name!: string;
+  @Field(() => String, { nullable: false })
+  biography!: string;
+  @Field(() => Date, { nullable: true })
+  birthDate: Date;
+}

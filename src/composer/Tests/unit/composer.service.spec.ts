@@ -80,13 +80,23 @@ describe('ComposerService', () => {
   //   });
   // });
   //
-  // describe('fetchComposer', () => {
-  //   it('should fetch a composer and return it', async () => {
-  //     prisma.composer.findUnique.mockResolvedValueOnce(composerStub());
-  //
-  //     const result = await composerService.fetchComposer(composerStub().id);
-  //
-  //     expect(result).toEqual(composerStub());
-  //   });
-  // });
+  describe('fetchComposers', () => {
+    it('should fetch a list of composers and return it', async () => {
+      prisma.composer.findMany.mockResolvedValueOnce([composerStub()]);
+      const result = await composerService.getAllComposer({});
+
+      expect(result).toMatchObject([composerStub()]);
+    });
+  });
+  describe('fetchComposer', () => {
+    it('should fetch a composer and return it', async () => {
+      prisma.composer.findUnique.mockResolvedValueOnce(composerStub());
+
+      const result = await composerService.getOneComposer({
+        name: '',
+      });
+
+      expect(result).toMatchObject(composerStub());
+    });
+  });
 });

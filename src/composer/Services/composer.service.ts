@@ -2,6 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { CreateComposerCommand } from '@/music_sheet/composer/Commands/CreateComposer/CreateComposerCommand';
 import { PrismaService } from '@/music_sheet/prisma.service';
 import { CreateComposerDto } from '@/music_sheet/composer/Dto/CreateComposerDto';
+import {
+  ComposerWhereInput,
+  ComposerWhereUniqueInput,
+  FindManyComposerArgs,
+  FindUniqueComposerArgs,
+} from '@/music_sheet/types/@generated';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class ComposerService {
@@ -36,6 +43,20 @@ export class ComposerService {
           },
         },
       },
+    });
+  }
+
+  getAllComposer(filtering: ComposerWhereInput) {
+    return this.prismaService.composer.findMany({
+      where: filtering,
+      include: { AuthorImage: true },
+    });
+  }
+
+  getOneComposer(filtering: ComposerWhereUniqueInput) {
+    return this.prismaService.composer.findUnique({
+      where: { ...filtering } as Prisma.ComposerWhereUniqueInput,
+      include: { AuthorImage: true },
     });
   }
 }

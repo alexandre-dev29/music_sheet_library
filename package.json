@@ -19,7 +19,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "pretest:integration": "dotenv -e .env.test -- yarn prisma migrate reset --force",
     "test:e2e": "jest -i --no-cache --config ./jest-e2e.json",
-    "test:integration": "jest -i --no-cache --config ./jest-integration.json"
+    "test:integration": "jest -i --no-cache --coverage --config ./jest-integration.json"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.635.0",

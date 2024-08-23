@@ -8,38 +8,99 @@ schema {
 "Indicates exactly one field must be supplied and this field must not be `null`."
 directive @oneOf on INPUT_OBJECT
 
-type AuthToken {
-    User: User!
+type Composer {
+    AuthorImage: FileStorage
+    MusicSheets: [SheetMusic!]
+    _count: ComposerCount!
+    authorImageId: String
+    biography: String
+    birthDate: DateTime
     createdAt: DateTime!
-    token: ID!
-    userId: String!
-    validUntil: DateTime!
+    id: ID!
+    name: String!
+    updatedAt: DateTime!
 }
 
-type AuthTokenCountAggregate {
+type ComposerCount {
+    MusicSheets: Int!
+}
+
+type ComposerCountAggregate {
     _all: Int!
+    authorImageId: Int!
+    biography: Int!
+    birthDate: Int!
     createdAt: Int!
-    token: Int!
+    id: Int!
+    name: Int!
+    updatedAt: Int!
+}
+
+type ComposerMaxAggregate {
+    authorImageId: String
+    biography: String
+    birthDate: DateTime
+    createdAt: DateTime
+    id: String
+    name: String
+    updatedAt: DateTime
+}
+
+type ComposerMinAggregate {
+    authorImageId: String
+    biography: String
+    birthDate: DateTime
+    createdAt: DateTime
+    id: String
+    name: String
+    updatedAt: DateTime
+}
+
+type CreateComposerDto {
+    biography: String!
+    birthDate: DateTime
+    name: String!
+}
+
+type Favorites {
+    SheetMusic: SheetMusic!
+    User: User!
+    addedAt: DateTime!
+    sheetMusicId: Int!
+    userId: String!
+}
+
+type FavoritesAvgAggregate {
+    sheetMusicId: Float
+}
+
+type FavoritesCountAggregate {
+    _all: Int!
+    addedAt: Int!
+    sheetMusicId: Int!
     userId: Int!
-    validUntil: Int!
 }
 
-type AuthTokenMaxAggregate {
-    createdAt: DateTime
-    token: String
+type FavoritesMaxAggregate {
+    addedAt: DateTime
+    sheetMusicId: Int
     userId: String
-    validUntil: DateTime
 }
 
-type AuthTokenMinAggregate {
-    createdAt: DateTime
-    token: String
+type FavoritesMinAggregate {
+    addedAt: DateTime
+    sheetMusicId: Int
     userId: String
-    validUntil: DateTime
+}
+
+type FavoritesSumAggregate {
+    sheetMusicId: Int
 }
 
 type FileStorage {
-    SheetsMusic: [SheetMusic!]
+    Composers: [Composer!]
+    SheetMusics: [SheetMusic!]
+    Thumbnails: [SheetMusic!]
     _count: FileStorageCount!
     bucket: String!
     createdAt: DateTime!
@@ -50,7 +111,9 @@ type FileStorage {
 }
 
 type FileStorageCount {
-    SheetsMusic: Int!
+    Composers: Int!
+    SheetMusics: Int!
+    Thumbnails: Int!
 }
 
 type FileStorageCountAggregate {
@@ -88,12 +151,16 @@ type LoginUserDto {
 }
 
 type Mutation {
+    createComposer(composerData: CreateComposerCommand!, imageComposer: Upload!): CreateComposerDto!
     loginUser(loginData: LoginCommand!): LoginUserDto!
     registerUser(registerUserData: RegisterCommand!): RegisterUserDto!
+    uploadFile(files: Upload!): User!
 }
 
 type Query {
-    getData: [User!]!
+    composer(filtering: ComposerWhereUniqueInput!): [Composer!]!
+    composers(filtering: ComposerWhereInput!): [Composer!]!
+    workingStatus: String!
 }
 
 type RegisterUserDto {
@@ -102,31 +169,43 @@ type RegisterUserDto {
 }
 
 type SheetMusic {
+    Composer: Composer!
+    UploadedBy: User!
+    _count: SheetMusicCount!
     arranger: String
-    composer: String!
+    composerId: String!
     createdAt: DateTime!
     description: String
-    difficulty: String!
-    file: FileStorage!
+    difficulty: String
+    favorites: [Favorites!]
     fileId: String!
-    genre: String!
+    genre: String
     id: ID!
     instrument: String!
-    pdfUrl: String!
-    slug: String!
+    numberOfDownloads: Int!
+    sheetFile: FileStorage!
+    slug: String
+    thumbnail: FileStorage!
+    thumbnailId: String!
     title: String!
     updatedAt: DateTime!
+    uploadedById: String!
     year: String
 }
 
 type SheetMusicAvgAggregate {
     id: Float
+    numberOfDownloads: Float
+}
+
+type SheetMusicCount {
+    favorites: Int!
 }
 
 type SheetMusicCountAggregate {
     _all: Int!
     arranger: Int!
-    composer: Int!
+    composerId: Int!
     createdAt: Int!
     description: Int!
     difficulty: Int!
@@ -134,16 +213,18 @@ type SheetMusicCountAggregate {
     genre: Int!
     id: Int!
     instrument: Int!
-    pdfUrl: Int!
+    numberOfDownloads: Int!
     slug: Int!
+    thumbnailId: Int!
     title: Int!
     updatedAt: Int!
+    uploadedById: Int!
     year: Int!
 }
 
 type SheetMusicMaxAggregate {
     arranger: String
-    composer: String
+    composerId: String
     createdAt: DateTime
     description: String
     difficulty: String
@@ -151,16 +232,18 @@ type SheetMusicMaxAggregate {
     genre: String
     id: Int
     instrument: String
-    pdfUrl: String
+    numberOfDownloads: Int
     slug: String
+    thumbnailId: String
     title: String
     updatedAt: DateTime
+    uploadedById: String
     year: String
 }
 
 type SheetMusicMinAggregate {
     arranger: String
-    composer: String
+    composerId: String
     createdAt: DateTime
     description: String
     difficulty: String
@@ -168,31 +251,37 @@ type SheetMusicMinAggregate {
     genre: String
     id: Int
     instrument: String
-    pdfUrl: String
+    numberOfDownloads: Int
     slug: String
+    thumbnailId: String
     title: String
     updatedAt: DateTime
+    uploadedById: String
     year: String
 }
 
 type SheetMusicSumAggregate {
     id: Int
+    numberOfDownloads: Int
 }
 
 type User {
-    AuthTokens: [AuthToken!]
+    FileUploaded: [SheetMusic!]
     _count: UserCount!
     biography: String!
     createdAt: DateTime!
+    favorites: [Favorites!]
     id: ID!
     name: String
     password: String!
     phoneNumber: String!
+    role: Roles!
     updatedAt: DateTime!
 }
 
 type UserCount {
-    AuthTokens: Int!
+    FileUploaded: Int!
+    favorites: Int!
 }
 
 type UserCountAggregate {
@@ -203,6 +292,7 @@ type UserCountAggregate {
     name: Int!
     password: Int!
     phoneNumber: Int!
+    role: Int!
     updatedAt: Int!
 }
 
@@ -213,6 +303,7 @@ type UserMaxAggregate {
     name: String
     password: String
     phoneNumber: String
+    role: Roles
     updatedAt: DateTime
 }
 
@@ -223,19 +314,322 @@ type UserMinAggregate {
     name: String
     password: String
     phoneNumber: String
+    role: Roles
     updatedAt: DateTime
+}
+
+enum QueryMode {
+    default
+    insensitive
+}
+
+enum Roles {
+    ADMIN
+    COMPOSER
+    SUPERADMIN
+    USER
 }
 
 "A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format."
 scalar DateTime
+
+"The `Upload` scalar type represents a file upload."
+scalar Upload
+
+input ComposerListRelationFilter {
+    every: ComposerWhereInput
+    none: ComposerWhereInput
+    some: ComposerWhereInput
+}
+
+input ComposerRelationFilter {
+    is: ComposerWhereInput
+    isNot: ComposerWhereInput
+}
+
+input ComposerWhereInput {
+    AND: [ComposerWhereInput!]
+    AuthorImage: FileStorageNullableRelationFilter
+    MusicSheets: SheetMusicListRelationFilter
+    NOT: [ComposerWhereInput!]
+    OR: [ComposerWhereInput!]
+    authorImageId: StringNullableFilter
+    biography: StringNullableFilter
+    birthDate: DateTimeNullableFilter
+    createdAt: DateTimeFilter
+    id: StringFilter
+    name: StringFilter
+    updatedAt: DateTimeFilter
+}
+
+input ComposerWhereUniqueInput {
+    AND: [ComposerWhereInput!]
+    AuthorImage: FileStorageNullableRelationFilter
+    MusicSheets: SheetMusicListRelationFilter
+    NOT: [ComposerWhereInput!]
+    OR: [ComposerWhereInput!]
+    authorImageId: StringNullableFilter
+    biography: StringNullableFilter
+    birthDate: DateTime
+    createdAt: DateTimeFilter
+    id: String
+    name: String
+    updatedAt: DateTimeFilter
+}
+
+input CreateComposerCommand {
+    biography: String!
+    birthDate: DateTime
+    composerImage: Upload
+    name: String!
+}
+
+input DateTimeFilter {
+    equals: DateTime
+    gt: DateTime
+    gte: DateTime
+    in: [DateTime!]
+    lt: DateTime
+    lte: DateTime
+    not: NestedDateTimeFilter
+    notIn: [DateTime!]
+}
+
+input DateTimeNullableFilter {
+    equals: DateTime
+    gt: DateTime
+    gte: DateTime
+    in: [DateTime!]
+    lt: DateTime
+    lte: DateTime
+    not: NestedDateTimeNullableFilter
+    notIn: [DateTime!]
+}
+
+input EnumRolesFilter {
+    equals: Roles
+    in: [Roles!]
+    not: NestedEnumRolesFilter
+    notIn: [Roles!]
+}
+
+input FavoritesListRelationFilter {
+    every: FavoritesWhereInput
+    none: FavoritesWhereInput
+    some: FavoritesWhereInput
+}
+
+input FavoritesWhereInput {
+    AND: [FavoritesWhereInput!]
+    NOT: [FavoritesWhereInput!]
+    OR: [FavoritesWhereInput!]
+    SheetMusic: SheetMusicRelationFilter
+    User: UserRelationFilter
+    addedAt: DateTimeFilter
+    sheetMusicId: IntFilter
+    userId: StringFilter
+}
+
+input FileStorageNullableRelationFilter {
+    is: FileStorageWhereInput
+    isNot: FileStorageWhereInput
+}
+
+input FileStorageRelationFilter {
+    is: FileStorageWhereInput
+    isNot: FileStorageWhereInput
+}
+
+input FileStorageWhereInput {
+    AND: [FileStorageWhereInput!]
+    Composers: ComposerListRelationFilter
+    NOT: [FileStorageWhereInput!]
+    OR: [FileStorageWhereInput!]
+    SheetMusics: SheetMusicListRelationFilter
+    Thumbnails: SheetMusicListRelationFilter
+    bucket: StringFilter
+    createdAt: DateTimeFilter
+    fileCompleteUrl: StringFilter
+    fileKey: StringFilter
+    id: StringFilter
+    updatedAt: DateTimeFilter
+}
+
+input IntFilter {
+    equals: Int
+    gt: Int
+    gte: Int
+    in: [Int!]
+    lt: Int
+    lte: Int
+    not: NestedIntFilter
+    notIn: [Int!]
+}
 
 input LoginCommand {
     password: String!
     phoneNumber: String!
 }
 
+input NestedDateTimeFilter {
+    equals: DateTime
+    gt: DateTime
+    gte: DateTime
+    in: [DateTime!]
+    lt: DateTime
+    lte: DateTime
+    not: NestedDateTimeFilter
+    notIn: [DateTime!]
+}
+
+input NestedDateTimeNullableFilter {
+    equals: DateTime
+    gt: DateTime
+    gte: DateTime
+    in: [DateTime!]
+    lt: DateTime
+    lte: DateTime
+    not: NestedDateTimeNullableFilter
+    notIn: [DateTime!]
+}
+
+input NestedEnumRolesFilter {
+    equals: Roles
+    in: [Roles!]
+    not: NestedEnumRolesFilter
+    notIn: [Roles!]
+}
+
+input NestedIntFilter {
+    equals: Int
+    gt: Int
+    gte: Int
+    in: [Int!]
+    lt: Int
+    lte: Int
+    not: NestedIntFilter
+    notIn: [Int!]
+}
+
+input NestedStringFilter {
+    contains: String
+    endsWith: String
+    equals: String
+    gt: String
+    gte: String
+    in: [String!]
+    lt: String
+    lte: String
+    not: NestedStringFilter
+    notIn: [String!]
+    startsWith: String
+}
+
+input NestedStringNullableFilter {
+    contains: String
+    endsWith: String
+    equals: String
+    gt: String
+    gte: String
+    in: [String!]
+    lt: String
+    lte: String
+    not: NestedStringNullableFilter
+    notIn: [String!]
+    startsWith: String
+}
+
 input RegisterCommand {
     name: String
     password: String!
     phoneNumber: String!
+}
+
+input SheetMusicListRelationFilter {
+    every: SheetMusicWhereInput
+    none: SheetMusicWhereInput
+    some: SheetMusicWhereInput
+}
+
+input SheetMusicRelationFilter {
+    is: SheetMusicWhereInput
+    isNot: SheetMusicWhereInput
+}
+
+input SheetMusicWhereInput {
+    AND: [SheetMusicWhereInput!]
+    Composer: ComposerRelationFilter
+    NOT: [SheetMusicWhereInput!]
+    OR: [SheetMusicWhereInput!]
+    UploadedBy: UserRelationFilter
+    arranger: StringNullableFilter
+    composerId: StringFilter
+    createdAt: DateTimeFilter
+    description: StringNullableFilter
+    difficulty: StringNullableFilter
+    favorites: FavoritesListRelationFilter
+    fileId: StringFilter
+    genre: StringNullableFilter
+    id: IntFilter
+    instrument: StringFilter
+    numberOfDownloads: IntFilter
+    sheetFile: FileStorageRelationFilter
+    slug: StringNullableFilter
+    thumbnail: FileStorageRelationFilter
+    thumbnailId: StringFilter
+    title: StringFilter
+    updatedAt: DateTimeFilter
+    uploadedById: StringFilter
+    year: StringNullableFilter
+}
+
+input StringFilter {
+    contains: String
+    endsWith: String
+    equals: String
+    gt: String
+    gte: String
+    in: [String!]
+    lt: String
+    lte: String
+    mode: QueryMode
+    not: NestedStringFilter
+    notIn: [String!]
+    startsWith: String
+}
+
+input StringNullableFilter {
+    contains: String
+    endsWith: String
+    equals: String
+    gt: String
+    gte: String
+    in: [String!]
+    lt: String
+    lte: String
+    mode: QueryMode
+    not: NestedStringNullableFilter
+    notIn: [String!]
+    startsWith: String
+}
+
+input UserRelationFilter {
+    is: UserWhereInput
+    isNot: UserWhereInput
+}
+
+input UserWhereInput {
+    AND: [UserWhereInput!]
+    FileUploaded: SheetMusicListRelationFilter
+    NOT: [UserWhereInput!]
+    OR: [UserWhereInput!]
+    biography: StringFilter
+    createdAt: DateTimeFilter
+    favorites: FavoritesListRelationFilter
+    id: StringFilter
+    name: StringNullableFilter
+    password: StringFilter
+    phoneNumber: StringFilter
+    role: EnumRolesFilter
+    updatedAt: DateTimeFilter
 }

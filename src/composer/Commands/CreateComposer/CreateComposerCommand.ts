@@ -1,7 +1,7 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 import { FileUpload, GraphQLUpload } from 'graphql-upload-minimal';
 
-@ObjectType()
+@InputType()
 export class CreateComposerCommand {
   @Field(() => String, { nullable: false })
   name!: string;
@@ -9,8 +9,8 @@ export class CreateComposerCommand {
   biography!: string;
   @Field(() => Date, { nullable: true })
   birthDate: Date;
-  @Field(() => GraphQLUpload, { nullable: false })
-  composerImage: FileUpload;
+  @Field(() => GraphQLUpload, { nullable: true })
+  composerImage?: FileUpload;
 
   constructor(
     name: string,
