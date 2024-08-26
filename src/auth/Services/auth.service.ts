@@ -6,6 +6,8 @@ import { PrismaService } from '@/music_sheet/prisma.service';
 import { ConfigService } from '@nestjs/config';
 import { RegisterCommand } from '@/music_sheet/auth/Commands/Register/RegisterCommand';
 import { LoginUserDto } from '@/music_sheet/auth/Dto/LoginUserDto';
+import { UserSecurity } from '@/music_sheet/common/security/user.security';
+import { Roles } from '@/music_sheet/types/@generated';
 
 @Injectable()
 export class AuthService {
@@ -73,7 +75,10 @@ export class AuthService {
       {
         phoneNumber: user.phoneNumber,
         name: user.name,
-      },
+        roles: [user.role] as Array<Roles>,
+        id: user.id,
+        isSuperAdmin: user.role === Roles.ADMIN,
+      } as UserSecurity,
       { secret: this.configService.get<string>('JWT_SECRET_SECRET_KEY') },
     );
 
