@@ -4,8 +4,6 @@ import {
   Composer,
   ComposerWhereInput,
   ComposerWhereUniqueInput,
-  FindManyComposerArgs,
-  FindUniqueComposerArgs,
 } from '@/music_sheet/types/@generated';
 import { RegisterUserDto } from '@/music_sheet/auth/Dto/registerUserDto';
 import { CreateComposerDto } from '@/music_sheet/composer/Dto/CreateComposerDto';
