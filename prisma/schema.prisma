@@ -44,7 +44,7 @@ model Composer {
 model SheetMusic {
   id                Int         @id @default(autoincrement())
   title             String
-  slug              String?
+  slug              String      @unique
   composerId        String
   arranger          String?
   instrument        String
@@ -93,5 +93,4 @@ enum Roles {
   USER
   ADMIN
   COMPOSER
-  SUPERADMIN
 }
