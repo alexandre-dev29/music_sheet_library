@@ -8,12 +8,12 @@ import { UsersModule } from '@/music_sheet/users/users.module';
 import { AuthModule } from '@/music_sheet/auth/auth.module';
 import { MusicsheetModule } from '@/music_sheet/musicsheet/musicsheet.module';
 import { CaslModule } from 'nest-casl';
-import { Role } from '@/music_sheet/common/security/role';
 import { UserSecurity } from '@/music_sheet/common/security/user.security';
 import { AppResolver } from '@/music_sheet/app.resolver';
 import { ComposerModule } from './composer/composer.module';
 import { DocumentsModule } from './documents/documents.module';
 import { DocumentsService } from '@/music_sheet/documents/documents.service';
+import { Roles } from '@/music_sheet/types/@generated';
 
 @Module({
   imports: [
@@ -37,8 +37,8 @@ import { DocumentsService } from '@/music_sheet/documents/documents.service';
         // } as MercuriusPlugin<MercuriusCacheOptions>,
       ],
     }),
-    CaslModule.forRoot<Role, UserSecurity>({
-      superuserRole: Role.SuperAdmin,
+    CaslModule.forRoot<Roles, UserSecurity>({
+      superuserRole: Roles.ADMIN,
       getUserFromRequest: (request) => request.user,
     }),
     TypesModule,

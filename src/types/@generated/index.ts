@@ -55,7 +55,6 @@ export enum Roles {
   USER = 'USER',
   ADMIN = 'ADMIN',
   COMPOSER = 'COMPOSER',
-  SUPERADMIN = 'SUPERADMIN',
 }
 
 export enum QueryMode {
@@ -4407,7 +4406,7 @@ export class DeleteManySheetMusicArgs {
 export class DeleteOneSheetMusicArgs {
   @Field(() => SheetMusicWhereUniqueInput, { nullable: false })
   @Type(() => SheetMusicWhereUniqueInput)
-  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>;
 }
 
 @ArgsType()
@@ -4418,7 +4417,7 @@ export class FindFirstSheetMusicOrThrowArgs {
   @Field(() => [SheetMusicOrderByWithRelationInput], { nullable: true })
   orderBy?: Array<SheetMusicOrderByWithRelationInput>;
   @Field(() => SheetMusicWhereUniqueInput, { nullable: true })
-  cursor?: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>;
+  cursor?: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>;
   @Field(() => Int, { nullable: true })
   take?: number;
   @Field(() => Int, { nullable: true })
@@ -4435,7 +4434,7 @@ export class FindFirstSheetMusicArgs {
   @Field(() => [SheetMusicOrderByWithRelationInput], { nullable: true })
   orderBy?: Array<SheetMusicOrderByWithRelationInput>;
   @Field(() => SheetMusicWhereUniqueInput, { nullable: true })
-  cursor?: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>;
+  cursor?: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>;
   @Field(() => Int, { nullable: true })
   take?: number;
   @Field(() => Int, { nullable: true })
@@ -4452,7 +4451,7 @@ export class FindManySheetMusicArgs {
   @Field(() => [SheetMusicOrderByWithRelationInput], { nullable: true })
   orderBy?: Array<SheetMusicOrderByWithRelationInput>;
   @Field(() => SheetMusicWhereUniqueInput, { nullable: true })
-  cursor?: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>;
+  cursor?: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>;
   @Field(() => Int, { nullable: true })
   take?: number;
   @Field(() => Int, { nullable: true })
@@ -4465,14 +4464,14 @@ export class FindManySheetMusicArgs {
 export class FindUniqueSheetMusicOrThrowArgs {
   @Field(() => SheetMusicWhereUniqueInput, { nullable: false })
   @Type(() => SheetMusicWhereUniqueInput)
-  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>;
 }
 
 @ArgsType()
 export class FindUniqueSheetMusicArgs {
   @Field(() => SheetMusicWhereUniqueInput, { nullable: false })
   @Type(() => SheetMusicWhereUniqueInput)
-  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>;
 }
 
 @ArgsType()
@@ -4483,7 +4482,7 @@ export class SheetMusicAggregateArgs {
   @Field(() => [SheetMusicOrderByWithRelationInput], { nullable: true })
   orderBy?: Array<SheetMusicOrderByWithRelationInput>;
   @Field(() => SheetMusicWhereUniqueInput, { nullable: true })
-  cursor?: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>;
+  cursor?: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>;
   @Field(() => Int, { nullable: true })
   take?: number;
   @Field(() => Int, { nullable: true })
@@ -4657,8 +4656,8 @@ export class SheetMusicCreateManyComposerInput {
   id?: number;
   @Field(() => String, { nullable: false })
   title!: string;
-  @Field(() => String, { nullable: true })
-  slug?: string;
+  @Field(() => String, { nullable: false })
+  slug!: string;
   @Field(() => String, { nullable: true })
   arranger?: string;
   @Field(() => String, { nullable: false })
@@ -4700,8 +4699,8 @@ export class SheetMusicCreateManySheetFileInput {
   id?: number;
   @Field(() => String, { nullable: false })
   title!: string;
-  @Field(() => String, { nullable: true })
-  slug?: string;
+  @Field(() => String, { nullable: false })
+  slug!: string;
   @Field(() => String, { nullable: false })
   composerId!: string;
   @Field(() => String, { nullable: true })
@@ -4743,8 +4742,8 @@ export class SheetMusicCreateManyThumbnailInput {
   id?: number;
   @Field(() => String, { nullable: false })
   title!: string;
-  @Field(() => String, { nullable: true })
-  slug?: string;
+  @Field(() => String, { nullable: false })
+  slug!: string;
   @Field(() => String, { nullable: false })
   composerId!: string;
   @Field(() => String, { nullable: true })
@@ -4786,8 +4785,8 @@ export class SheetMusicCreateManyUploadedByInput {
   id?: number;
   @Field(() => String, { nullable: false })
   title!: string;
-  @Field(() => String, { nullable: true })
-  slug?: string;
+  @Field(() => String, { nullable: false })
+  slug!: string;
   @Field(() => String, { nullable: false })
   composerId!: string;
   @Field(() => String, { nullable: true })
@@ -4820,8 +4819,8 @@ export class SheetMusicCreateManyInput {
   id?: number;
   @Field(() => String, { nullable: false })
   title!: string;
-  @Field(() => String, { nullable: true })
-  slug?: string;
+  @Field(() => String, { nullable: false })
+  slug!: string;
   @Field(() => String, { nullable: false })
   composerId!: string;
   @Field(() => String, { nullable: true })
@@ -4865,7 +4864,7 @@ export class SheetMusicCreateNestedManyWithoutComposerInput {
   createMany?: InstanceType<typeof SheetMusicCreateManyComposerInputEnvelope>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
 }
 
 @InputType()
@@ -4883,7 +4882,7 @@ export class SheetMusicCreateNestedManyWithoutSheetFileInput {
   createMany?: InstanceType<typeof SheetMusicCreateManySheetFileInputEnvelope>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
 }
 
 @InputType()
@@ -4901,7 +4900,7 @@ export class SheetMusicCreateNestedManyWithoutThumbnailInput {
   createMany?: InstanceType<typeof SheetMusicCreateManyThumbnailInputEnvelope>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
 }
 
 @InputType()
@@ -4919,7 +4918,7 @@ export class SheetMusicCreateNestedManyWithoutUploadedByInput {
   createMany?: InstanceType<typeof SheetMusicCreateManyUploadedByInputEnvelope>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
 }
 
 @InputType()
@@ -4936,14 +4935,14 @@ export class SheetMusicCreateNestedOneWithoutFavoritesInput {
   >;
   @Field(() => SheetMusicWhereUniqueInput, { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  connect?: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>;
+  connect?: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>;
 }
 
 @InputType()
 export class SheetMusicCreateOrConnectWithoutComposerInput {
   @Field(() => SheetMusicWhereUniqueInput, { nullable: false })
   @Type(() => SheetMusicWhereUniqueInput)
-  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>;
   @Field(() => SheetMusicCreateWithoutComposerInput, { nullable: false })
   @Type(() => SheetMusicCreateWithoutComposerInput)
   create!: InstanceType<typeof SheetMusicCreateWithoutComposerInput>;
@@ -4953,7 +4952,7 @@ export class SheetMusicCreateOrConnectWithoutComposerInput {
 export class SheetMusicCreateOrConnectWithoutFavoritesInput {
   @Field(() => SheetMusicWhereUniqueInput, { nullable: false })
   @Type(() => SheetMusicWhereUniqueInput)
-  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>;
   @Field(() => SheetMusicCreateWithoutFavoritesInput, { nullable: false })
   @Type(() => SheetMusicCreateWithoutFavoritesInput)
   create!: InstanceType<typeof SheetMusicCreateWithoutFavoritesInput>;
@@ -4963,7 +4962,7 @@ export class SheetMusicCreateOrConnectWithoutFavoritesInput {
 export class SheetMusicCreateOrConnectWithoutSheetFileInput {
   @Field(() => SheetMusicWhereUniqueInput, { nullable: false })
   @Type(() => SheetMusicWhereUniqueInput)
-  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>;
   @Field(() => SheetMusicCreateWithoutSheetFileInput, { nullable: false })
   @Type(() => SheetMusicCreateWithoutSheetFileInput)
   create!: InstanceType<typeof SheetMusicCreateWithoutSheetFileInput>;
@@ -4973,7 +4972,7 @@ export class SheetMusicCreateOrConnectWithoutSheetFileInput {
 export class SheetMusicCreateOrConnectWithoutThumbnailInput {
   @Field(() => SheetMusicWhereUniqueInput, { nullable: false })
   @Type(() => SheetMusicWhereUniqueInput)
-  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>;
   @Field(() => SheetMusicCreateWithoutThumbnailInput, { nullable: false })
   @Type(() => SheetMusicCreateWithoutThumbnailInput)
   create!: InstanceType<typeof SheetMusicCreateWithoutThumbnailInput>;
@@ -4983,7 +4982,7 @@ export class SheetMusicCreateOrConnectWithoutThumbnailInput {
 export class SheetMusicCreateOrConnectWithoutUploadedByInput {
   @Field(() => SheetMusicWhereUniqueInput, { nullable: false })
   @Type(() => SheetMusicWhereUniqueInput)
-  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>;
   @Field(() => SheetMusicCreateWithoutUploadedByInput, { nullable: false })
   @Type(() => SheetMusicCreateWithoutUploadedByInput)
   create!: InstanceType<typeof SheetMusicCreateWithoutUploadedByInput>;
@@ -4993,8 +4992,8 @@ export class SheetMusicCreateOrConnectWithoutUploadedByInput {
 export class SheetMusicCreateWithoutComposerInput {
   @Field(() => String, { nullable: false })
   title!: string;
-  @Field(() => String, { nullable: true })
-  slug?: string;
+  @Field(() => String, { nullable: false })
+  slug!: string;
   @Field(() => String, { nullable: true })
   arranger?: string;
   @Field(() => String, { nullable: false })
@@ -5039,8 +5038,8 @@ export class SheetMusicCreateWithoutComposerInput {
 export class SheetMusicCreateWithoutFavoritesInput {
   @Field(() => String, { nullable: false })
   title!: string;
-  @Field(() => String, { nullable: true })
-  slug?: string;
+  @Field(() => String, { nullable: false })
+  slug!: string;
   @Field(() => String, { nullable: true })
   arranger?: string;
   @Field(() => String, { nullable: false })
@@ -5085,8 +5084,8 @@ export class SheetMusicCreateWithoutFavoritesInput {
 export class SheetMusicCreateWithoutSheetFileInput {
   @Field(() => String, { nullable: false })
   title!: string;
-  @Field(() => String, { nullable: true })
-  slug?: string;
+  @Field(() => String, { nullable: false })
+  slug!: string;
   @Field(() => String, { nullable: true })
   arranger?: string;
   @Field(() => String, { nullable: false })
@@ -5131,8 +5130,8 @@ export class SheetMusicCreateWithoutSheetFileInput {
 export class SheetMusicCreateWithoutThumbnailInput {
   @Field(() => String, { nullable: false })
   title!: string;
-  @Field(() => String, { nullable: true })
-  slug?: string;
+  @Field(() => String, { nullable: false })
+  slug!: string;
   @Field(() => String, { nullable: true })
   arranger?: string;
   @Field(() => String, { nullable: false })
@@ -5177,8 +5176,8 @@ export class SheetMusicCreateWithoutThumbnailInput {
 export class SheetMusicCreateWithoutUploadedByInput {
   @Field(() => String, { nullable: false })
   title!: string;
-  @Field(() => String, { nullable: true })
-  slug?: string;
+  @Field(() => String, { nullable: false })
+  slug!: string;
   @Field(() => String, { nullable: true })
   arranger?: string;
   @Field(() => String, { nullable: false })
@@ -5227,8 +5226,8 @@ export class SheetMusicCreateWithoutUploadedByInput {
 export class SheetMusicCreateInput {
   @Field(() => String, { nullable: false })
   title!: string;
-  @Field(() => String, { nullable: true })
-  slug?: string;
+  @Field(() => String, { nullable: false })
+  slug!: string;
   @Field(() => String, { nullable: true })
   arranger?: string;
   @Field(() => String, { nullable: false })
@@ -5308,8 +5307,8 @@ export class SheetMusicGroupBy {
   id!: number;
   @Field(() => String, { nullable: false })
   title!: string;
-  @Field(() => String, { nullable: true })
-  slug?: string;
+  @Field(() => String, { nullable: false })
+  slug!: string;
   @Field(() => String, { nullable: false })
   composerId!: string;
   @Field(() => String, { nullable: true })
@@ -5586,8 +5585,8 @@ export class SheetMusicOrderByWithAggregationInput {
   id?: keyof typeof SortOrder;
   @Field(() => SortOrder, { nullable: true })
   title?: keyof typeof SortOrder;
-  @Field(() => SortOrderInput, { nullable: true })
-  slug?: InstanceType<typeof SortOrderInput>;
+  @Field(() => SortOrder, { nullable: true })
+  slug?: keyof typeof SortOrder;
   @Field(() => SortOrder, { nullable: true })
   composerId?: keyof typeof SortOrder;
   @Field(() => SortOrderInput, { nullable: true })
@@ -5632,8 +5631,8 @@ export class SheetMusicOrderByWithRelationInput {
   id?: keyof typeof SortOrder;
   @Field(() => SortOrder, { nullable: true })
   title?: keyof typeof SortOrder;
-  @Field(() => SortOrderInput, { nullable: true })
-  slug?: InstanceType<typeof SortOrderInput>;
+  @Field(() => SortOrder, { nullable: true })
+  slug?: keyof typeof SortOrder;
   @Field(() => SortOrder, { nullable: true })
   composerId?: keyof typeof SortOrder;
   @Field(() => SortOrderInput, { nullable: true })
@@ -5692,8 +5691,8 @@ export class SheetMusicScalarWhereWithAggregatesInput {
   id?: InstanceType<typeof IntWithAggregatesFilter>;
   @Field(() => StringWithAggregatesFilter, { nullable: true })
   title?: InstanceType<typeof StringWithAggregatesFilter>;
-  @Field(() => StringNullableWithAggregatesFilter, { nullable: true })
-  slug?: InstanceType<typeof StringNullableWithAggregatesFilter>;
+  @Field(() => StringWithAggregatesFilter, { nullable: true })
+  slug?: InstanceType<typeof StringWithAggregatesFilter>;
   @Field(() => StringWithAggregatesFilter, { nullable: true })
   composerId?: InstanceType<typeof StringWithAggregatesFilter>;
   @Field(() => StringNullableWithAggregatesFilter, { nullable: true })
@@ -5734,8 +5733,8 @@ export class SheetMusicScalarWhereInput {
   id?: InstanceType<typeof IntFilter>;
   @Field(() => StringFilter, { nullable: true })
   title?: InstanceType<typeof StringFilter>;
-  @Field(() => StringNullableFilter, { nullable: true })
-  slug?: InstanceType<typeof StringNullableFilter>;
+  @Field(() => StringFilter, { nullable: true })
+  slug?: InstanceType<typeof StringFilter>;
   @Field(() => StringFilter, { nullable: true })
   composerId?: InstanceType<typeof StringFilter>;
   @Field(() => StringNullableFilter, { nullable: true })
@@ -5803,7 +5802,7 @@ export class SheetMusicUncheckedCreateNestedManyWithoutComposerInput {
   createMany?: InstanceType<typeof SheetMusicCreateManyComposerInputEnvelope>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
 }
 
 @InputType()
@@ -5821,7 +5820,7 @@ export class SheetMusicUncheckedCreateNestedManyWithoutSheetFileInput {
   createMany?: InstanceType<typeof SheetMusicCreateManySheetFileInputEnvelope>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
 }
 
 @InputType()
@@ -5839,7 +5838,7 @@ export class SheetMusicUncheckedCreateNestedManyWithoutThumbnailInput {
   createMany?: InstanceType<typeof SheetMusicCreateManyThumbnailInputEnvelope>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
 }
 
 @InputType()
@@ -5857,7 +5856,7 @@ export class SheetMusicUncheckedCreateNestedManyWithoutUploadedByInput {
   createMany?: InstanceType<typeof SheetMusicCreateManyUploadedByInputEnvelope>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
 }
 
 @InputType()
@@ -5866,8 +5865,8 @@ export class SheetMusicUncheckedCreateWithoutComposerInput {
   id?: number;
   @Field(() => String, { nullable: false })
   title!: string;
-  @Field(() => String, { nullable: true })
-  slug?: string;
+  @Field(() => String, { nullable: false })
+  slug!: string;
   @Field(() => String, { nullable: true })
   arranger?: string;
   @Field(() => String, { nullable: false })
@@ -5906,8 +5905,8 @@ export class SheetMusicUncheckedCreateWithoutFavoritesInput {
   id?: number;
   @Field(() => String, { nullable: false })
   title!: string;
-  @Field(() => String, { nullable: true })
-  slug?: string;
+  @Field(() => String, { nullable: false })
+  slug!: string;
   @Field(() => String, { nullable: false })
   composerId!: string;
   @Field(() => String, { nullable: true })
@@ -5942,8 +5941,8 @@ export class SheetMusicUncheckedCreateWithoutSheetFileInput {
   id?: number;
   @Field(() => String, { nullable: false })
   title!: string;
-  @Field(() => String, { nullable: true })
-  slug?: string;
+  @Field(() => String, { nullable: false })
+  slug!: string;
   @Field(() => String, { nullable: false })
   composerId!: string;
   @Field(() => String, { nullable: true })
@@ -5982,8 +5981,8 @@ export class SheetMusicUncheckedCreateWithoutThumbnailInput {
   id?: number;
   @Field(() => String, { nullable: false })
   title!: string;
-  @Field(() => String, { nullable: true })
-  slug?: string;
+  @Field(() => String, { nullable: false })
+  slug!: string;
   @Field(() => String, { nullable: false })
   composerId!: string;
   @Field(() => String, { nullable: true })
@@ -6022,8 +6021,8 @@ export class SheetMusicUncheckedCreateWithoutUploadedByInput {
   id?: number;
   @Field(() => String, { nullable: false })
   title!: string;
-  @Field(() => String, { nullable: true })
-  slug?: string;
+  @Field(() => String, { nullable: false })
+  slug!: string;
   @Field(() => String, { nullable: false })
   composerId!: string;
   @Field(() => String, { nullable: true })
@@ -6062,8 +6061,8 @@ export class SheetMusicUncheckedCreateInput {
   id?: number;
   @Field(() => String, { nullable: false })
   title!: string;
-  @Field(() => String, { nullable: true })
-  slug?: string;
+  @Field(() => String, { nullable: false })
+  slug!: string;
   @Field(() => String, { nullable: false })
   composerId!: string;
   @Field(() => String, { nullable: true })
@@ -6118,16 +6117,16 @@ export class SheetMusicUncheckedUpdateManyWithoutComposerNestedInput {
   createMany?: InstanceType<typeof SheetMusicCreateManyComposerInputEnvelope>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  set?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  set?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  disconnect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  disconnect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  delete?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  delete?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicUpdateWithWhereUniqueWithoutComposerInput], {
     nullable: true,
   })
@@ -6149,8 +6148,8 @@ export class SheetMusicUncheckedUpdateManyWithoutComposerInput {
   id?: InstanceType<typeof IntFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
-  slug?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
+  slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
   arranger?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
@@ -6197,16 +6196,16 @@ export class SheetMusicUncheckedUpdateManyWithoutSheetFileNestedInput {
   createMany?: InstanceType<typeof SheetMusicCreateManySheetFileInputEnvelope>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  set?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  set?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  disconnect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  disconnect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  delete?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  delete?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicUpdateWithWhereUniqueWithoutSheetFileInput], {
     nullable: true,
   })
@@ -6228,8 +6227,8 @@ export class SheetMusicUncheckedUpdateManyWithoutSheetFileInput {
   id?: InstanceType<typeof IntFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
-  slug?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
+  slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   composerId?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
@@ -6276,16 +6275,16 @@ export class SheetMusicUncheckedUpdateManyWithoutThumbnailNestedInput {
   createMany?: InstanceType<typeof SheetMusicCreateManyThumbnailInputEnvelope>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  set?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  set?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  disconnect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  disconnect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  delete?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  delete?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicUpdateWithWhereUniqueWithoutThumbnailInput], {
     nullable: true,
   })
@@ -6307,8 +6306,8 @@ export class SheetMusicUncheckedUpdateManyWithoutThumbnailInput {
   id?: InstanceType<typeof IntFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
-  slug?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
+  slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   composerId?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
@@ -6355,16 +6354,16 @@ export class SheetMusicUncheckedUpdateManyWithoutUploadedByNestedInput {
   createMany?: InstanceType<typeof SheetMusicCreateManyUploadedByInputEnvelope>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  set?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  set?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  disconnect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  disconnect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  delete?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  delete?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicUpdateWithWhereUniqueWithoutUploadedByInput], {
     nullable: true,
   })
@@ -6386,8 +6385,8 @@ export class SheetMusicUncheckedUpdateManyWithoutUploadedByInput {
   id?: InstanceType<typeof IntFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
-  slug?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
+  slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   composerId?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
@@ -6420,8 +6419,8 @@ export class SheetMusicUncheckedUpdateManyInput {
   id?: InstanceType<typeof IntFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
-  slug?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
+  slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   composerId?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
@@ -6456,8 +6455,8 @@ export class SheetMusicUncheckedUpdateWithoutComposerInput {
   id?: InstanceType<typeof IntFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
-  slug?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
+  slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
   arranger?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
@@ -6496,8 +6495,8 @@ export class SheetMusicUncheckedUpdateWithoutFavoritesInput {
   id?: InstanceType<typeof IntFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
-  slug?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
+  slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   composerId?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
@@ -6532,8 +6531,8 @@ export class SheetMusicUncheckedUpdateWithoutSheetFileInput {
   id?: InstanceType<typeof IntFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
-  slug?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
+  slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   composerId?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
@@ -6572,8 +6571,8 @@ export class SheetMusicUncheckedUpdateWithoutThumbnailInput {
   id?: InstanceType<typeof IntFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
-  slug?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
+  slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   composerId?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
@@ -6612,8 +6611,8 @@ export class SheetMusicUncheckedUpdateWithoutUploadedByInput {
   id?: InstanceType<typeof IntFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
-  slug?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
+  slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   composerId?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
@@ -6652,8 +6651,8 @@ export class SheetMusicUncheckedUpdateInput {
   id?: InstanceType<typeof IntFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
-  slug?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
+  slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   composerId?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
@@ -6692,8 +6691,8 @@ export class SheetMusicUncheckedUpdateInput {
 export class SheetMusicUpdateManyMutationInput {
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
-  slug?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
+  slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
   arranger?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
@@ -6774,16 +6773,16 @@ export class SheetMusicUpdateManyWithoutComposerNestedInput {
   createMany?: InstanceType<typeof SheetMusicCreateManyComposerInputEnvelope>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  set?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  set?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  disconnect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  disconnect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  delete?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  delete?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicUpdateWithWhereUniqueWithoutComposerInput], {
     nullable: true,
   })
@@ -6819,16 +6818,16 @@ export class SheetMusicUpdateManyWithoutSheetFileNestedInput {
   createMany?: InstanceType<typeof SheetMusicCreateManySheetFileInputEnvelope>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  set?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  set?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  disconnect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  disconnect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  delete?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  delete?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicUpdateWithWhereUniqueWithoutSheetFileInput], {
     nullable: true,
   })
@@ -6864,16 +6863,16 @@ export class SheetMusicUpdateManyWithoutThumbnailNestedInput {
   createMany?: InstanceType<typeof SheetMusicCreateManyThumbnailInputEnvelope>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  set?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  set?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  disconnect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  disconnect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  delete?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  delete?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicUpdateWithWhereUniqueWithoutThumbnailInput], {
     nullable: true,
   })
@@ -6909,16 +6908,16 @@ export class SheetMusicUpdateManyWithoutUploadedByNestedInput {
   createMany?: InstanceType<typeof SheetMusicCreateManyUploadedByInputEnvelope>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  set?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  set?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  disconnect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  disconnect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  delete?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  delete?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicWhereUniqueInput], { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>>;
+  connect?: Array<Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>>;
   @Field(() => [SheetMusicUpdateWithWhereUniqueWithoutUploadedByInput], {
     nullable: true,
   })
@@ -6951,7 +6950,7 @@ export class SheetMusicUpdateOneRequiredWithoutFavoritesNestedInput {
   upsert?: InstanceType<typeof SheetMusicUpsertWithoutFavoritesInput>;
   @Field(() => SheetMusicWhereUniqueInput, { nullable: true })
   @Type(() => SheetMusicWhereUniqueInput)
-  connect?: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>;
+  connect?: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>;
   @Field(() => SheetMusicUpdateToOneWithWhereWithoutFavoritesInput, {
     nullable: true,
   })
@@ -6975,7 +6974,7 @@ export class SheetMusicUpdateToOneWithWhereWithoutFavoritesInput {
 export class SheetMusicUpdateWithWhereUniqueWithoutComposerInput {
   @Field(() => SheetMusicWhereUniqueInput, { nullable: false })
   @Type(() => SheetMusicWhereUniqueInput)
-  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>;
   @Field(() => SheetMusicUpdateWithoutComposerInput, { nullable: false })
   @Type(() => SheetMusicUpdateWithoutComposerInput)
   data!: InstanceType<typeof SheetMusicUpdateWithoutComposerInput>;
@@ -6985,7 +6984,7 @@ export class SheetMusicUpdateWithWhereUniqueWithoutComposerInput {
 export class SheetMusicUpdateWithWhereUniqueWithoutSheetFileInput {
   @Field(() => SheetMusicWhereUniqueInput, { nullable: false })
   @Type(() => SheetMusicWhereUniqueInput)
-  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>;
   @Field(() => SheetMusicUpdateWithoutSheetFileInput, { nullable: false })
   @Type(() => SheetMusicUpdateWithoutSheetFileInput)
   data!: InstanceType<typeof SheetMusicUpdateWithoutSheetFileInput>;
@@ -6995,7 +6994,7 @@ export class SheetMusicUpdateWithWhereUniqueWithoutSheetFileInput {
 export class SheetMusicUpdateWithWhereUniqueWithoutThumbnailInput {
   @Field(() => SheetMusicWhereUniqueInput, { nullable: false })
   @Type(() => SheetMusicWhereUniqueInput)
-  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>;
   @Field(() => SheetMusicUpdateWithoutThumbnailInput, { nullable: false })
   @Type(() => SheetMusicUpdateWithoutThumbnailInput)
   data!: InstanceType<typeof SheetMusicUpdateWithoutThumbnailInput>;
@@ -7005,7 +7004,7 @@ export class SheetMusicUpdateWithWhereUniqueWithoutThumbnailInput {
 export class SheetMusicUpdateWithWhereUniqueWithoutUploadedByInput {
   @Field(() => SheetMusicWhereUniqueInput, { nullable: false })
   @Type(() => SheetMusicWhereUniqueInput)
-  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>;
   @Field(() => SheetMusicUpdateWithoutUploadedByInput, { nullable: false })
   @Type(() => SheetMusicUpdateWithoutUploadedByInput)
   data!: InstanceType<typeof SheetMusicUpdateWithoutUploadedByInput>;
@@ -7015,8 +7014,8 @@ export class SheetMusicUpdateWithWhereUniqueWithoutUploadedByInput {
 export class SheetMusicUpdateWithoutComposerInput {
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
-  slug?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
+  slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
   arranger?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
@@ -7065,8 +7064,8 @@ export class SheetMusicUpdateWithoutComposerInput {
 export class SheetMusicUpdateWithoutFavoritesInput {
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
-  slug?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
+  slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
   arranger?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
@@ -7115,8 +7114,8 @@ export class SheetMusicUpdateWithoutFavoritesInput {
 export class SheetMusicUpdateWithoutSheetFileInput {
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
-  slug?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
+  slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
   arranger?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
@@ -7165,8 +7164,8 @@ export class SheetMusicUpdateWithoutSheetFileInput {
 export class SheetMusicUpdateWithoutThumbnailInput {
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
-  slug?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
+  slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
   arranger?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
@@ -7215,8 +7214,8 @@ export class SheetMusicUpdateWithoutThumbnailInput {
 export class SheetMusicUpdateWithoutUploadedByInput {
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
-  slug?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
+  slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
   arranger?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
@@ -7265,8 +7264,8 @@ export class SheetMusicUpdateWithoutUploadedByInput {
 export class SheetMusicUpdateInput {
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
-  slug?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
+  slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
   arranger?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
@@ -7321,7 +7320,7 @@ export class SheetMusicUpdateInput {
 export class SheetMusicUpsertWithWhereUniqueWithoutComposerInput {
   @Field(() => SheetMusicWhereUniqueInput, { nullable: false })
   @Type(() => SheetMusicWhereUniqueInput)
-  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>;
   @Field(() => SheetMusicUpdateWithoutComposerInput, { nullable: false })
   @Type(() => SheetMusicUpdateWithoutComposerInput)
   update!: InstanceType<typeof SheetMusicUpdateWithoutComposerInput>;
@@ -7334,7 +7333,7 @@ export class SheetMusicUpsertWithWhereUniqueWithoutComposerInput {
 export class SheetMusicUpsertWithWhereUniqueWithoutSheetFileInput {
   @Field(() => SheetMusicWhereUniqueInput, { nullable: false })
   @Type(() => SheetMusicWhereUniqueInput)
-  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>;
   @Field(() => SheetMusicUpdateWithoutSheetFileInput, { nullable: false })
   @Type(() => SheetMusicUpdateWithoutSheetFileInput)
   update!: InstanceType<typeof SheetMusicUpdateWithoutSheetFileInput>;
@@ -7347,7 +7346,7 @@ export class SheetMusicUpsertWithWhereUniqueWithoutSheetFileInput {
 export class SheetMusicUpsertWithWhereUniqueWithoutThumbnailInput {
   @Field(() => SheetMusicWhereUniqueInput, { nullable: false })
   @Type(() => SheetMusicWhereUniqueInput)
-  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>;
   @Field(() => SheetMusicUpdateWithoutThumbnailInput, { nullable: false })
   @Type(() => SheetMusicUpdateWithoutThumbnailInput)
   update!: InstanceType<typeof SheetMusicUpdateWithoutThumbnailInput>;
@@ -7360,7 +7359,7 @@ export class SheetMusicUpsertWithWhereUniqueWithoutThumbnailInput {
 export class SheetMusicUpsertWithWhereUniqueWithoutUploadedByInput {
   @Field(() => SheetMusicWhereUniqueInput, { nullable: false })
   @Type(() => SheetMusicWhereUniqueInput)
-  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>;
   @Field(() => SheetMusicUpdateWithoutUploadedByInput, { nullable: false })
   @Type(() => SheetMusicUpdateWithoutUploadedByInput)
   update!: InstanceType<typeof SheetMusicUpdateWithoutUploadedByInput>;
@@ -7386,6 +7385,8 @@ export class SheetMusicUpsertWithoutFavoritesInput {
 export class SheetMusicWhereUniqueInput {
   @Field(() => Int, { nullable: true })
   id?: number;
+  @Field(() => String, { nullable: true })
+  slug?: string;
   @Field(() => [SheetMusicWhereInput], { nullable: true })
   AND?: Array<SheetMusicWhereInput>;
   @Field(() => [SheetMusicWhereInput], { nullable: true })
@@ -7394,8 +7395,6 @@ export class SheetMusicWhereUniqueInput {
   NOT?: Array<SheetMusicWhereInput>;
   @Field(() => StringFilter, { nullable: true })
   title?: InstanceType<typeof StringFilter>;
-  @Field(() => StringNullableFilter, { nullable: true })
-  slug?: InstanceType<typeof StringNullableFilter>;
   @Field(() => StringFilter, { nullable: true })
   composerId?: InstanceType<typeof StringFilter>;
   @Field(() => StringNullableFilter, { nullable: true })
@@ -7446,8 +7445,8 @@ export class SheetMusicWhereInput {
   id?: InstanceType<typeof IntFilter>;
   @Field(() => StringFilter, { nullable: true })
   title?: InstanceType<typeof StringFilter>;
-  @Field(() => StringNullableFilter, { nullable: true })
-  slug?: InstanceType<typeof StringNullableFilter>;
+  @Field(() => StringFilter, { nullable: true })
+  slug?: InstanceType<typeof StringFilter>;
   @Field(() => StringFilter, { nullable: true })
   composerId?: InstanceType<typeof StringFilter>;
   @Field(() => StringNullableFilter, { nullable: true })
@@ -7492,8 +7491,8 @@ export class SheetMusic {
   id!: number;
   @Field(() => String, { nullable: false })
   title!: string;
-  @Field(() => String, { nullable: true })
-  slug!: string | null;
+  @Field(() => String, { nullable: false })
+  slug!: string;
   @Field(() => String, { nullable: false })
   composerId!: string;
   @Field(() => String, { nullable: true })
@@ -7551,14 +7550,14 @@ export class UpdateOneSheetMusicArgs {
   data!: InstanceType<typeof SheetMusicUpdateInput>;
   @Field(() => SheetMusicWhereUniqueInput, { nullable: false })
   @Type(() => SheetMusicWhereUniqueInput)
-  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>;
 }
 
 @ArgsType()
 export class UpsertOneSheetMusicArgs {
   @Field(() => SheetMusicWhereUniqueInput, { nullable: false })
   @Type(() => SheetMusicWhereUniqueInput)
-  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<SheetMusicWhereUniqueInput, 'id' | 'slug'>;
   @Field(() => SheetMusicCreateInput, { nullable: false })
   @Type(() => SheetMusicCreateInput)
   create!: InstanceType<typeof SheetMusicCreateInput>;
